@@ -1,4 +1,6 @@
 # -*- coding:utf-8 -*-
+from flask import Flask,redirect,request ,render_template,url_for
+from flask_sqlalchemy import SQLAlchemy
 import requests
 import time
 import json
@@ -6,6 +8,20 @@ import re
 import demjson
 import xlwt
 from multiprocessing.pool import ThreadPool   #线程池
+import config
+app = Flask(__name__)
+app.config.from_object(config)
+db = SQLAlchemy(app)
+
+class Weather(db.Model):
+    id = db.Column(db.Integer,primary_key=True,autoincrement=True)
+    name = db.Column(db.String(64))
+    date = db.Column(db.String(64))
+    climate = db.Column(db.String(64))
+    max_air = db.Column(db.String(64))
+    min_air = db.Column(db.String(64))
+    wind = db.Column(db.String(64))
+
 
 class History_weather():
     def __init__(self):
@@ -36,7 +52,7 @@ class History_weather():
                 j = str(j)
                 for k in li_month:
                     url = url_start + j + k + url_l + i + url_year + j + k + url_js
-                    print(url)
+                    # print(url)
                     self.get_url(url)
     def get_url(self,url):
         #print(url)
@@ -89,8 +105,11 @@ class History_weather():
             li.append(i['yWendu'])  #最低温
             li.append(i['fengli'])  #风力
             li.append(i['fengxiang'])  #风向
-            print('/'*99)
             print(li)
+            x = Weather(name=str(li[0]), date=str(li[1]), climate=str(li[2]),
+                        max_air=str(li[3]), min_air=str(li[4]), wind=str(li[5]))
+            db.session.add(x)
+            db.session.commit()
             # num+=1
             # j = 0
             # for i in li:
@@ -102,6 +121,8 @@ class History_weather():
 
 
 if __name__ == '__main__':
+    db.drop_all()
+    db.create_all()
     num = 0
     aa = History_weather()
     pool = ThreadPool(32)  # 实现一个线程池 ，参数是线程的数量, 这里就是两个线程等待调用

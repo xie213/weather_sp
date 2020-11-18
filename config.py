@@ -1,6 +1,6 @@
 host = "127.0.0.1"
 port = "3306"
-database = "king"
+database = "ii"
 username = "root"
 password = "123456"
 DB = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8'.format(username,password,host,port,database)
