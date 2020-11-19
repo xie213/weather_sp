@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ajax数据提交</title>
+    <script src='../static/jq/jquery-2.1.0.js'></script>
+
+    <script>
+
+        function tijiao(){
+            var aa = $('#d1').val()
+            var bb = $('#d2').val()
+            var cc = $('#d3').val()
+
+            if (aa != "" && bb != ""&&cc !=""){
+                $.ajax({
+                    type:"post",
+                    dataType:"json",
+                    url:"/Post_data/",
+                    data:{
+                        "place_name":aa,
+                        "year":bb,
+                    },
+                    success:function (data){
+                        // console.log(data.kk)
+                        // alert("提交成功")
+                        for(var i=0; i<data.length; i++){
+                            data[i]
+                        }
+                    }
+                })
+            }
+
+        }
+
+    </script>
+</head>
+<body>
+地区：<input type="text" id="d1">
+年份:<input type="text" id="d2">
+<a href="javaScript:tijiao()">提交</a>
+<div>
+    <tr>
+        <td id="p2"></td>
+    </tr>
+</div>
+</body>
+</html>
