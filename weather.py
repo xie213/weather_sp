@@ -134,40 +134,58 @@ class Get_ajax(Resource):
         parser = reqparse.RequestParser()
 
         # 获取username  是否是str类型  ，提示用户名验证错误！
-        parser.add_argument("book", type=str, help="用户名验证错误！", required=True)
-        parser.add_argument("content", type=str, help="用户名验证错误！", required=True)
+        parser.add_argument("place_name", type=str, help="用户名验证错误！", required=True)
+        parser.add_argument("year", type=str, help="用户名验证错误！", required=True)
         # 拿到这个传来的参数
         args = parser.parse_args()
 
-        print("获取全部传来的值:", args)
+        name = args.get('place_name')
+        print(name)
+        year = args.get('year')
+        print(year)
+        name_ = Weather.query.filter(Weather.name == name )
+        api_list = []
+        for i in name_:
+            dict_i = {
+                "name": i.name,
+                "date": i.date,
+                "climate": i.climate,
+                "max_air": i.max_air,
+                "min_air": i.min_air,
+                "wind": i.wind
+            }
+            api_list.append(dict_i)
+        print(api_list)
+        api_json = json.dumps(api_list)
+        return {'api': api_list}
 
-        a = {"kk": ['咸阳', "2011年11月", "阴天", "温度最高20", '最低5']}
 
-        return a
+
+# @app.route('/')
+# def hello_world():
+#     name = Weather.query.filter(Weather.name == '咸阳')
+#     api_list = []
+#     for i in name:
+#         dict_i = {
+#             "name" : i.name,
+#             "date" : i.date,
+#             "climate" : i.climate,
+#             "max_air": i.max_air,
+#             "min_air": i.min_air,
+#             "wind": i.wind
+#             }
+#         api_list.append(dict_i)
+#     print(api_list)
+#
+#     return json.dumps(api_list)
+
 
 
 api.add_resource(Get_ajax, "/Post_data/")
 
-
 @app.route('/')
-def hello_world():
-    name = Weather.query.filter(Weather.name == '咸阳')
-    api_list = []
-    for i in name:
-        dict_i = {
-            "name" : i.name,
-            "date" : i.date,
-            "climate" : i.climate,
-            "max_air": i.max_air,
-            "min_air": i.min_air,
-            "wind": i.wind
-            }
-        api_list.append(dict_i)
-    print(api_list)
-
-    return json.dumps(api_list)
-
-
+def index():
+    return render_template('index.html')
 
 
 if __name__ == '__main__':

@@ -5,44 +5,76 @@
     <title>ajax数据提交</title>
     <script src='../static/jq/jquery-2.1.0.js'></script>
 
-    <script>
 
-        function tijiao(){
-            var aa = $('#d1').val()
-            var bb = $('#d2').val()
-            var cc = $('#d3').val()
-
-            if (aa != "" && bb != ""&&cc !=""){
-                $.ajax({
-                    type:"post",
-                    dataType:"json",
-                    url:"/Post_data/",
-                    data:{
-                        "place_name":aa,
-                        "year":bb,
-                    },
-                    success:function (data){
-                        // console.log(data.kk)
-                        // alert("提交成功")
-                        for(var i=0; i<data.length; i++){
-                            data[i]
-                        }
-                    }
-                })
-            }
-
-        }
-
-    </script>
 </head>
 <body>
-地区：<input type="text" id="d1">
-年份:<input type="text" id="d2">
-<a href="javaScript:tijiao()">提交</a>
-<div>
-    <tr>
-        <td id="p2"></td>
-    </tr>
-</div>
+
+
+<form action="" method="post">
+    <table align="center">
+        <th>
+            地方:<input type="text" id="d1">
+            <select id="d2">
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+            </select>
+            <button><a href="javaScript:tijiao()">提交</a></button>
+        </th>
+
+    </table>
+    <div class="container">
+        <table class="table table-striped" id ='oo' align="center">
+            <thead>
+            <tr>
+                <th>城市</th>
+                <th>日期</th>
+                <th>天气</th>
+                <th>最高温度</th>
+                <th>最低温度</th>
+                <th>风力</th>
+            </tr>
+            </thead>
+<!--            <tbody>-->
+
+<!--            </tbody>-->
+        </table>
+    </div>
+    </div>
+</form>
+<script>
+
+        function tijiao() {
+            var aa = $('#d1').val()
+            var bb = $('#d2').val()
+            console.log(aa)
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                url: "/Post_data/",
+                data: {
+                    "place_name": aa,
+                    "year": bb,
+                },
+                success: function (api) {
+                    console.log(api);
+                    console.log(typeof api);
+                    api.api.forEach(function (a) {
+                        console.log(a);
+                        $("#oo").append(
+                            "<tr>" +
+                            "<td>" + a.name + "</td>" +
+                            "<td>" + a.date + "</td>" +
+                            "<td>" + a.climate + "</td>" +
+                            "<td>" + a.max_air + "</td>" +
+                            "<td>" + a.min_air + "</td>" +
+                            "<td >" + a.wind + "</td>" +
+                            "</tr>"
+                        )
+                    })
+                }
+            })}
+
+
+    </script>
 </body>
 </html>
