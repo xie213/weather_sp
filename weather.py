@@ -180,7 +180,7 @@ class Get_ajax(Resource):
 #     return json.dumps(api_list)
 
 
-
+##
 api.add_resource(Get_ajax, "/Post_data/")
 
 @app.route('/')
