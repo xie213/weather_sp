@@ -198,4 +198,4 @@ if __name__ == '__main__':
     # pool.close()  # 关闭线程池， 不在提交任务，
     # pool.join()  # 等待线程池里面的任务 运行完毕
     # aa.f.save(r'e:\excel_finally_3.xls')  # 保存
-    app.run(debug=True,port=8888)
+    app.run(debug=True,port=8889)
