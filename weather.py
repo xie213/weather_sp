@@ -143,7 +143,7 @@ class Get_ajax(Resource):
         print(name)
         year = args.get('year')
         print(year)
-        name_ = Weather.query.filter(Weather.name == name )
+        name_ = Weather.query.filter(Weather.name == "{}".format(name) )
         api_list = []
         for i in name_:
             dict_i = {
@@ -182,10 +182,23 @@ class Get_ajax(Resource):
 
 ##
 api.add_resource(Get_ajax, "/Post_data/")
+# 字典去重
+from functools import reduce
+def list_dict_duplicate_removal(data_list):
+    def run_function(x, y): return x if y in x else x + [y]
+    return reduce(run_function, [[], ] + data_list)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    cc = Weather.query.all()
+    x_list = []
+    for i in cc:
+        x_list.append(i.name)
+
+    c_list = list(set(x_list))
+    print(c_list)
+
+    return render_template('index.html',c_list = c_list)
 
 
 if __name__ == '__main__':

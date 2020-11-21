@@ -13,7 +13,12 @@
 <form action="" method="post">
     <table align="center">
         <th>
-            地方:<input type="text" id="d1">
+                        <select class="form-control" id="d1">
+                            <option value="咸阳">请选择地址</option>
+                            {% for i in c_list %}
+                                <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                        </select>
             <select id="d2">
                 <option value="2017">2017</option>
                 <option value="2018">2018</option>
