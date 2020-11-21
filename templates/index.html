@@ -47,6 +47,8 @@
             var aa = $('#d1').val()
             var bb = $('#d2').val()
             console.log(aa)
+            // 使用empty
+            $("#oo").empty()
             $.ajax({
                 type: "post",
                 dataType: "json",
@@ -69,9 +71,13 @@
                             "<td>" + a.min_air + "</td>" +
                             "<td >" + a.wind + "</td>" +
                             "</tr>"
+
                         )
+
                     })
+
                 }
+
             })}
 
 
